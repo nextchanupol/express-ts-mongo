@@ -43,25 +43,25 @@ const routes = (app: Express) => {
 	app.delete("/api/sessions", requireUser, deleteSessionHandler);
 
 	app.get(
-		"/api/product/:productID",
+		"/api/products/:productID",
 		validateResource(getProductSchema),
 		getProductHandler
 	);
 
 	app.post(
-		"/api/product",
+		"/api/products",
 		[requireUser, validateResource(createProductSchema)],
 		createProductHandler
 	);
 
 	app.put(
-		"/api/product",
+		"/api/products",
 		[requireUser, validateResource(updateProductSchema)],
 		updateProductHandler
 	);
 
 	app.delete(
-		"/api/product",
+		"/api/products",
 		[requireUser, validateResource(deleteProductSchema)],
 		deleteProductHandler
 	);

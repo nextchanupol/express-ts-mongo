@@ -15,19 +15,22 @@ export const getProductHandler = async (
 	req: Request<ReadProductInput["params"]>,
 	res: Response
 ) => {
-	const userID = res.locals.user._id;
+	console.log("res.locals", res.locals.user);
+	const userID = res.locals.user ? res.locals.user._id : null;
 
 	if (!userID) {
-		return res.sendStatus(403);
+		return res.status(403).send({ message: "Unauthorized" });
 	}
 
 	const productID = req.params.productID;
+	// console.log("productID", req.params.productID);
 
 	if (!productID) {
 		return res.sendStatus(400);
 	}
+	// const product = await findProduct({ productID });
 
-	const product = await findProduct({ user: userID, _id: productID });
+	const product = await findProduct({ user: userID, productID });
 
 	if (!product) {
 		return res.sendStatus(404);

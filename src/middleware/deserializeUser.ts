@@ -20,6 +20,9 @@ const deserializeUser = async (
 	}
 
 	const { decoded, expired } = verifyJWT(accessToken);
+	console.log("expired", expired);
+	console.log("refreshToken", refreshToken);
+	console.log('decoded', decoded)
 
 	if (decoded) {
 		res.locals.user = decoded;
@@ -28,7 +31,7 @@ const deserializeUser = async (
 
 	if (expired && refreshToken) {
 		const newAccessToken = await reIssueRefreshToken({ refreshToken });
-
+		console.log("newAccessToken", newAccessToken);
 		if (newAccessToken) {
 			res.setHeader("x-access-token", newAccessToken);
 		}
@@ -36,6 +39,7 @@ const deserializeUser = async (
 		const token = typeof newAccessToken === "string" ? newAccessToken : "";
 		const result = verifyJWT(token);
 
+		console.log("result", result);
 		res.locals.user = result.decoded;
 		return next();
 	}
